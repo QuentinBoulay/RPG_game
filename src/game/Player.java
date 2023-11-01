@@ -9,13 +9,16 @@ import java.util.ArrayList;
 public class Player implements ActionsPlayer {
 
     private String nom;
+
+    private int race;
     private int life;
 
     private double money;
     private ArrayList<Weapon> armes;
 
-    public Player(String nom) {
+    public Player(String nom, int race) {
         this.nom = nom;
+        this.race = race;
         this.life = 300;
         this.money = 50;
         this.armes = new ArrayList<Weapon>();
@@ -45,6 +48,22 @@ public class Player implements ActionsPlayer {
 
     public String getNom() {
         return this.nom;
+    }
+
+    public String getRace() {
+        String raceLabel = "";
+
+        if(this.race == 0) {
+            raceLabel = "Humain";
+        }
+        else if(this.race == 1) {
+            raceLabel = "Elfe";
+        }
+        else {
+            raceLabel = "Nain";
+        }
+
+        return raceLabel;
     }
 
     public int getLife() {
