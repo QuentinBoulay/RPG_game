@@ -20,11 +20,10 @@ public class MainGame {
         System.out.println("[2] Nain");
 
         int choixRace = sc.nextInt();
-        while(choixRace != 0 && choixRace != 1 && choixRace != 2) {
+        while (choixRace != 0 && choixRace != 1 && choixRace != 2) {
             System.out.println("Choisissez un type de personnage valide : ");
             choixRace = sc.nextInt();
         }
-
 
         Player j1 = new Player(nom, choixRace);
 
@@ -38,57 +37,28 @@ public class MainGame {
         System.out.println("[2] Hammer");
 
         int choixArme = sc.nextInt();
-        while(choixArme != 0 && choixArme != 1 && choixArme != 2) {
+        while (choixArme != 0 && choixArme != 1 && choixArme != 2) {
             System.out.println("Choisissez une arme valide : ");
             choixArme = sc.nextInt();
         }
 
-        if(choixArme == 0) {
+        if (choixArme == 0) {
             j1.buyWeapon(store.getWeaponInStore(0), store);
-        }
-        else if(choixArme == 1) {
+        } else if (choixArme == 1) {
             j1.buyWeapon(store.getWeaponInStore(1), store);
-        }
-        else {
+        } else {
             j1.buyWeapon(store.getWeaponInStore(2), store);
         }
 
-        // Création d'une carte en 2d avec des "*" sur laquelle le joueur va se déplacer,avec des points d'interaction (store, obstacles, monstres). La map doit être générée aléatoirement comme ceci :
-        // Création de la matrice comme ceci :
-         String[][] map = new String[5][5];
-         for(int i = 0; i < map.length; i++) {
-             for(int j = 0; j < map[i].length; j++) {
-                 if(Math.random() < 0.1) {
-                     map[i][j] = "[S]";
-                 }
-                 else if(Math.random() < 0.1) {
-                     map[i][j] = "[M]";
-                 }
-                 else if(Math.random() < 0.1) {
-                     map[i][j] = "[O]";
-                 }
-                 else {
-                     map[i][j] = "[ ]";
-                 }
-                 // placer le joueur sur la map :
-                 map[map.length-1][0] = "[X]";
-                 // placer la sortie sur la map :
-                 map[0][map.length-1] = "[?]";
-            }
+        // Création de la map :
+        Map map = new Map(10, 10);
+        map.initMap();
 
-         }
-
-         // Tant que le joueur n'a pas atteint la case [?], on continue de jouer :
-        while(map[0][map.length-1] != "[X]") {
+        while (!map.isSortie()) {
             // Affichage de la map :
-            for (int i = 0; i < map.length; i++) {
-                for (int j = 0; j < map[i].length; j++) {
-                    System.out.print(map[i][j]);
-                }
-                System.out.println();
-            }
+            map.afficherMap();
 
-            // Choix de l'action du joueur :
+            // Déplacement du joueur :
             System.out.println("Choisissez votre action : ");
             System.out.println("[0] up");
             System.out.println("[1] down");
@@ -101,25 +71,9 @@ public class MainGame {
                 choixAction = sc.nextInt();
             }
 
-            // Déplacement du joueur :
-            if (choixAction == 0) {
-                // Déplacement vers le haut :
-                map[map.length - 1][0] = "[ ]";
-                map[map.length - 2][0] = "[X]";
-            } else if (choixAction == 1) {
-                // Déplacement vers le bas :
-                map[map.length - 1][0] = "[ ]";
-                map[map.length - 1][1] = "[X]";
-            } else if (choixAction == 2) {
-                // Déplacement vers la gauche :
-                map[map.length - 1][0] = "[ ]";
-                map[map.length - 1][0] = "[X]";
-            } else {
-                // Déplacement vers la droite :
-                map[map.length - 1][0] = "[ ]";
-                map[map.length - 1][1] = "[X]";
-            }
-        }
+            map.deplacerJoueur(choixAction);
 
+
+        }
     }
 }

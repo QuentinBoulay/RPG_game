@@ -16,6 +16,7 @@ public class Player implements ActionsPlayer {
     private double money;
     private ArrayList<Weapon> armes;
 
+
     public Player(String nom, int race) {
         this.nom = nom;
         this.race = race;
