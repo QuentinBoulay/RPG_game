@@ -81,18 +81,20 @@ public class Map {
                 return;
             }
             else {
-                System.out.println("pos joueur");
-                System.out.println(this.getPositionJoueur()[0]);
-                System.out.println(this.getPositionJoueur()[1]);
-                System.out.println("pos monstre");
-                for(int[] monstre: this.getPositionMonstres())
-                {
-                    System.out.println(monstre.toString());
-                }
-
                 this.map[this.positionJoueur[0]][this.positionJoueur[1]] = "[ ]";
                 this.map[this.positionJoueur[0] - 1][this.positionJoueur[1]] = "[X]";
                 this.positionJoueur[0] = this.positionJoueur[0] - 1;
+
+                System.out.println("Pos Joueur : "+this.positionJoueur[0]+" "+this.positionJoueur[1]);
+                for(int[] monstre: this.getPositionMonstres())
+                {
+                    System.out.println("Pos Monstre : "+monstre[0]+" "+monstre[1]);
+                    if(this.getPositionJoueur()[0] == monstre[0] && this.getPositionJoueur()[1] == monstre[1])
+                    {
+                        System.out.println("Vous êtes tombé sur un monstre");
+                    }
+                }
+
             }
         }
         else if(choixAction == 1) {
@@ -102,18 +104,18 @@ public class Map {
                 return;
             }
             else {
-                System.out.println("pos joueur");
-                System.out.println(this.getPositionJoueur()[0]);
-                System.out.println(this.getPositionJoueur()[1]);
-                System.out.println("pos monstre");
-                for(int[] monstre: this.getPositionMonstres())
-                {
-                    System.out.println(monstre);
-                }
-
                 this.map[this.positionJoueur[0]][this.positionJoueur[1]] = "[ ]";
                 this.map[this.positionJoueur[0]+1][this.positionJoueur[1]] = "[X]";
                 this.positionJoueur[0] = this.positionJoueur[0]+1;
+                System.out.println("Pos Joueur : "+this.positionJoueur[0]+" "+this.positionJoueur[1]);
+                for(int[] monstre: this.getPositionMonstres())
+                {
+                    if(this.getPositionJoueur()[0] == monstre[0] && this.getPositionJoueur()[1] == monstre[1])
+                    {
+                        System.out.println("Vous êtes tombé sur un monstre");
+                    }
+                }
+
             }
 
         }
@@ -124,18 +126,18 @@ public class Map {
                 return;
             }
             else {
-                System.out.println("pos joueur");
-                System.out.println(this.getPositionJoueur()[0]);
-                System.out.println(this.getPositionJoueur()[1]);
-                System.out.println("pos monstre");
-                for(int[] monstre: this.getPositionMonstres())
-                {
-                    System.out.println(monstre);
-                }
-
                 this.map[this.positionJoueur[0]][this.positionJoueur[1]] = "[ ]";
                 this.map[this.positionJoueur[0]][this.positionJoueur[1] - 1] = "[X]";
                 this.positionJoueur[1] = this.positionJoueur[1] - 1;
+                System.out.println("Pos Joueur : "+this.positionJoueur[0]+" "+this.positionJoueur[1]);
+                for(int[] monstre: this.getPositionMonstres())
+                {
+                    if(this.getPositionJoueur()[0] == monstre[0] && this.getPositionJoueur()[1] == monstre[1])
+                    {
+                        System.out.println("Vous êtes tombé sur un monstre");
+                    }
+                }
+
             }
         }
         else {
@@ -146,20 +148,17 @@ public class Map {
                 return;
             }
             else {
-                System.out.println("pos joueur");
-                System.out.println(this.getPositionJoueur()[0]);
-                System.out.println(this.getPositionJoueur()[1]);
-                System.out.println("pos monstre");
-                for(int[] monstre: this.getPositionMonstres())
-                {
-                    System.out.println(monstre);
-                }
-
-
-
                 this.map[this.positionJoueur[0]][this.positionJoueur[1]] = "[ ]";
                 this.map[this.positionJoueur[0]][this.positionJoueur[1] + 1] = "[X]";
                 this.positionJoueur[1] = this.positionJoueur[1] + 1;
+                System.out.println("Pos Joueur : "+this.positionJoueur[0]+" "+this.positionJoueur[1]);
+                for(int[] monstre: this.getPositionMonstres())
+                {
+                    if(this.getPositionJoueur()[0] == monstre[0] && this.getPositionJoueur()[1] == monstre[1])
+                    {
+                        System.out.println("Vous êtes tombé sur un monstre");
+                    }
+                }
             }
         }
     }
