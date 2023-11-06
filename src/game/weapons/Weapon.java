@@ -36,7 +36,7 @@ public abstract class Weapon {
         return this.idArme;
     }
 
-    public String getNomArme() {
+    public String getName() {
         return this.nomArme;
     }
 

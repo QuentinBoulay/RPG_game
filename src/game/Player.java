@@ -1,10 +1,13 @@
 package game;
 
+import game.destructible.Monster;
+import game.destructible.Obstacle;
 import game.interfaces.ActionsPlayer;
 import game.weapons.Weapon;
 import game.weapons.WeaponStore;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Player implements ActionsPlayer {
 
@@ -21,7 +24,7 @@ public class Player implements ActionsPlayer {
         this.nom = nom;
         this.race = race;
         this.life = 300;
-        this.money = 50;
+        this.money = 300;
         this.armes = new ArrayList<Weapon>();
     }
 
@@ -38,6 +41,108 @@ public class Player implements ActionsPlayer {
                 this.money = this.money - arme.getPrice();
             }
         }
+
+    }
+
+    @Override
+    public void deplacement(int choixAction, Map map, WeaponStore weaponStore) {
+        int[] positionJoueur = map.getPositionJoueur();
+        String[][] mapGame = map.getMap();
+
+        // Calculer la nouvelle position en fonction du choix de l'action
+        int newX = positionJoueur[0];
+        int newY = positionJoueur[1];
+        switch (choixAction) {
+            case 0: newX--; break; // up
+            case 1: newX++; break; // down
+            case 2: newY--; break; // left
+            case 3: newY++; break; // right
+        }
+
+        // Vérifier si le déplacement est dans les limites de la carte
+        if (newX < 0 || newX >= mapGame.length || newY < 0 || newY >= mapGame[0].length) {
+            System.out.println("Déplacement impossible : hors de la carte.");
+            return;
+        }
+
+        // Vérifier le contenu de la nouvelle position
+        String caseContent = mapGame[newX][newY];
+
+        // Agir en fonction du contenu de la case
+        if (caseContent.equals("[M]")) {
+            // Interaction avec un monstre
+            if(meetMonster(this.armes.get(0), weaponStore)) {
+             mapGame[newX][newY] = "[ ]" ;
+            }
+        } else if (caseContent.equals("[O]")) {
+            // Interaction avec un obstacle
+            if(meetObstacle(this.armes.get(0), weaponStore)) {
+                mapGame[newX][newY] = "[ ]" ;
+            }
+        } else if (caseContent.equals("[S]")) {
+            // Interaction avec un magasin
+            weaponStore.displayStore(this); // Ici le joueur ne se déplace pas, il interagit juste avec le magasin
+        } else {
+            // Déplacement autorisé
+            mapGame[positionJoueur[0]][positionJoueur[1]] = "[ ]"; // Effacer la trace du joueur de l'ancienne position
+            positionJoueur[0] = newX;
+            positionJoueur[1] = newY;
+            mapGame[newX][newY] = "[X]"; // Marquer la nouvelle position du joueur
+        }
+    }
+    // Rencontre avec un obstacle
+    @Override
+    public boolean meetObstacle(Weapon arme, WeaponStore store) {
+        Obstacle obstacle1 = new Obstacle(400);
+        System.out.println("Vous êtes tombé sur un obstacle");
+        while(obstacle1.getLife() > 0) {
+            System.out.println("Vous avez " + this.life + " points de vie");
+            System.out.println("L'obstacle a " + obstacle1.getLife() + " points de vie");
+            System.out.println("Voulez-vous l'attaquer ? [0] Oui [1] Non");
+            Scanner sc = new Scanner(System.in);
+            int choixAttaque = sc.nextInt();
+            while (choixAttaque != 0 && choixAttaque != 1) {
+                System.out.println("Choisissez une action valide : ");
+                choixAttaque = sc.nextInt();
+            }
+            if (choixAttaque == 0) {
+                arme.attack(obstacle1);
+            }
+            else {
+
+                System.out.println("Vous avez fui");
+                return false;
+            }
+        }
+        System.out.println("Vous avez détruit l'obstacle. Vous pouvez avancer");
+        return obstacle1.getLife() <= 0;
+
+    }
+
+    @Override
+    public boolean meetMonster(Weapon arme, WeaponStore store) {
+        Monster monster1 = new Monster(400);
+        System.out.println("Vous êtes tombé sur un monstre");
+        while(monster1.getLife() > 0) {
+            System.out.println("Vous avez " + this.life + " points de vie");
+            System.out.println("Le monstre a " + monster1.getLife() + " points de vie");
+            System.out.println("Voulez-vous l'attaquer ? [0] Oui [1] Non");
+            Scanner sc = new Scanner(System.in);
+            int choixAttaque = sc.nextInt();
+            while (choixAttaque != 0 && choixAttaque != 1) {
+                System.out.println("Choisissez une action valide : ");
+                choixAttaque = sc.nextInt();
+            }
+            if (choixAttaque == 0) {
+                arme.attack(monster1);
+            }
+            else {
+                System.out.println("Vous avez fui");
+                return false;
+            }
+        }
+        System.out.println("Vous avez tué le monstre. Vous pouvez avancer");
+        return monster1.getLife() <= 0;
 
     }
 

@@ -73,96 +73,6 @@ public class Map {
         }
     }
 
-    public void deplacerJoueur(int choixAction) {
-        if(choixAction == 0) {
-            // Déplacement vers le haut :
-            if (this.positionJoueur[0] == 0) {
-                System.out.println("Vous ne pouvez pas aller plus haut");
-                return;
-            }
-            else {
-                this.map[this.positionJoueur[0]][this.positionJoueur[1]] = "[ ]";
-                this.map[this.positionJoueur[0] - 1][this.positionJoueur[1]] = "[X]";
-                this.positionJoueur[0] = this.positionJoueur[0] - 1;
-
-                System.out.println("Pos Joueur : "+this.positionJoueur[0]+" "+this.positionJoueur[1]);
-                for(int[] monstre: this.getPositionMonstres())
-                {
-                    System.out.println("Pos Monstre : "+monstre[0]+" "+monstre[1]);
-                    if(this.getPositionJoueur()[0] == monstre[0] && this.getPositionJoueur()[1] == monstre[1])
-                    {
-                        System.out.println("Vous êtes tombé sur un monstre");
-                    }
-                }
-
-            }
-        }
-        else if(choixAction == 1) {
-            // Déplacement vers le bas :
-            if (this.positionJoueur[0] == this.map.length-1) {
-                System.out.println("Vous ne pouvez pas aller plus bas");
-                return;
-            }
-            else {
-                this.map[this.positionJoueur[0]][this.positionJoueur[1]] = "[ ]";
-                this.map[this.positionJoueur[0]+1][this.positionJoueur[1]] = "[X]";
-                this.positionJoueur[0] = this.positionJoueur[0]+1;
-                System.out.println("Pos Joueur : "+this.positionJoueur[0]+" "+this.positionJoueur[1]);
-                for(int[] monstre: this.getPositionMonstres())
-                {
-                    if(this.getPositionJoueur()[0] == monstre[0] && this.getPositionJoueur()[1] == monstre[1])
-                    {
-                        System.out.println("Vous êtes tombé sur un monstre");
-                    }
-                }
-
-            }
-
-        }
-        else if(choixAction == 2) {
-            // Déplacement vers la gauche :
-            if (this.positionJoueur[1] == 0) {
-                System.out.println("Vous ne pouvez pas aller plus à gauche");
-                return;
-            }
-            else {
-                this.map[this.positionJoueur[0]][this.positionJoueur[1]] = "[ ]";
-                this.map[this.positionJoueur[0]][this.positionJoueur[1] - 1] = "[X]";
-                this.positionJoueur[1] = this.positionJoueur[1] - 1;
-                System.out.println("Pos Joueur : "+this.positionJoueur[0]+" "+this.positionJoueur[1]);
-                for(int[] monstre: this.getPositionMonstres())
-                {
-                    if(this.getPositionJoueur()[0] == monstre[0] && this.getPositionJoueur()[1] == monstre[1])
-                    {
-                        System.out.println("Vous êtes tombé sur un monstre");
-                    }
-                }
-
-            }
-        }
-        else {
-            // Déplacement vers la droite :
-
-            if (this.positionJoueur[1] == this.map.length-1) {
-                System.out.println("Vous ne pouvez pas aller plus à droite");
-                return;
-            }
-            else {
-                this.map[this.positionJoueur[0]][this.positionJoueur[1]] = "[ ]";
-                this.map[this.positionJoueur[0]][this.positionJoueur[1] + 1] = "[X]";
-                this.positionJoueur[1] = this.positionJoueur[1] + 1;
-                System.out.println("Pos Joueur : "+this.positionJoueur[0]+" "+this.positionJoueur[1]);
-                for(int[] monstre: this.getPositionMonstres())
-                {
-                    if(this.getPositionJoueur()[0] == monstre[0] && this.getPositionJoueur()[1] == monstre[1])
-                    {
-                        System.out.println("Vous êtes tombé sur un monstre");
-                    }
-                }
-            }
-        }
-    }
-
     public boolean isSortie() {
         if(this.positionJoueur[0] == this.positionSortie[0] && this.positionJoueur[1] == this.positionSortie[1]) {
             return true;
@@ -170,6 +80,11 @@ public class Map {
         else {
             return false;
         }
+    }
+
+
+    public String[][] getMap() {
+        return this.map;
     }
 
     public int[] getPositionJoueur() {

@@ -29,26 +29,7 @@ public class MainGame {
 
         // Création du magasin d'armes :
         WeaponStore store = new WeaponStore();
-
-        // Choix de l'arme du personnage :
-        System.out.println("Choisissez votre arme : ");
-        System.out.println("[0] Axe");
-        System.out.println("[1] Bow");
-        System.out.println("[2] Hammer");
-
-        int choixArme = sc.nextInt();
-        while (choixArme != 0 && choixArme != 1 && choixArme != 2) {
-            System.out.println("Choisissez une arme valide : ");
-            choixArme = sc.nextInt();
-        }
-
-        if (choixArme == 0) {
-            j1.buyWeapon(store.getWeaponInStore(0), store);
-        } else if (choixArme == 1) {
-            j1.buyWeapon(store.getWeaponInStore(1), store);
-        } else {
-            j1.buyWeapon(store.getWeaponInStore(2), store);
-        }
+        store.displayStore(j1);
 
         // Création de la map :
         Map map = new Map(10, 10);
@@ -71,7 +52,7 @@ public class MainGame {
                 choixAction = sc.nextInt();
             }
 
-            map.deplacerJoueur(choixAction);
+            j1.deplacement(choixAction, map, store);
 
 
         }
