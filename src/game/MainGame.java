@@ -2,7 +2,7 @@ package game;
 
 import game.destructible.Monster;
 import game.weapons.WeaponStore;
-
+import static game.constants.ConsoleColors.*;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -20,9 +20,9 @@ public class MainGame {
         // Création du personnage un peu plus précise. Quel race de personnage êtes-vous ?
         System.out.println("=====================================");
         System.out.println("Quel type de personnage êtes-vous ?");
-        System.out.println("[0] Humain");
-        System.out.println("[1] Elfe");
-        System.out.println("[2] Nain");
+        System.out.println(GREEN+"[0] "+RESET+"Humain");
+        System.out.println(GREEN+"[1] "+RESET+"Elfe");
+        System.out.println(GREEN+"[2] "+RESET+"Nain");
 
         int choixRace = sc.nextInt();
         while (choixRace != 0 && choixRace != 1 && choixRace != 2) {
@@ -34,7 +34,7 @@ public class MainGame {
         System.out.println("=====================================");
         System.out.println("Voici votre personnage :");
         System.out.println(j1);
-        System.out.println("[X] Commencer l'aventure");
+        System.out.println(GREEN+"[X] "+RESET+"Commencer l'aventure");
         String choixBegin = "";
         while(!Objects.equals(choixBegin, "X")) {
             choixBegin = sc.nextLine();
@@ -59,11 +59,11 @@ public class MainGame {
             // Déplacement du joueur :
             System.out.println("=====================================");
             System.out.println("Choisissez votre action : ");
-            System.out.println("[0] up");
-            System.out.println("[1] down");
-            System.out.println("[2] left");
-            System.out.println("[3] right");
-            System.out.println("[4] Voir inventaire");
+            System.out.println(GREEN+"[0] "+RESET+"up");
+            System.out.println(GREEN+"[1] "+RESET+"down");
+            System.out.println(GREEN+"[2] "+RESET+"left");
+            System.out.println(GREEN+"[3] "+RESET+"right");
+            System.out.println(GREEN+"[4] "+RESET+"Voir inventaire");
 
             int choixAction = sc.nextInt();
             while (choixAction != 0 && choixAction != 1 && choixAction != 2 && choixAction != 3 && choixAction != 4) {
@@ -76,7 +76,7 @@ public class MainGame {
                 System.out.println("Voici votre inventaire :");
                 System.out.println("Porte-feuille : " + j1.getMoney());
                 System.out.println(j1.getArmes());
-                System.out.println("[X] Quitter inventaire");
+                System.out.println(GREEN+"[X] "+RESET+"Quitter inventaire");
                 String choixQuit = "";
                 while(!Objects.equals(choixQuit, "X")) {
                     choixQuit = sc.nextLine();

@@ -9,6 +9,9 @@ import game.weapons.Weapon;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static game.constants.ConsoleColors.GREEN;
+import static game.constants.ConsoleColors.RESET;
+
 public class WeaponStore {
     private ArrayList<Weapon> weapons = new ArrayList<>();
 
@@ -44,10 +47,10 @@ public class WeaponStore {
         Scanner sc = new Scanner(System.in);
 
         for (Weapon arme : this.weapons) {
-            System.out.println("[" + arme.getIdArme() + "] " + arme.getName() + " (prix : " + arme.getPrice() + ")");
+            System.out.println(GREEN+"[" + arme.getIdArme() + "] "+RESET+arme.getName() + " (prix : " + arme.getPrice() + ")");
         }
         if(!player.getArmes().isEmpty()) {
-            System.out.println("[0] Quitter le magasin");
+            System.out.println(GREEN+"[0] "+RESET+"Quitter le magasin");
         }
 
         int choixArme = sc.nextInt();

@@ -100,7 +100,7 @@ public class Player implements ActionsPlayer {
         while(obstacle1.getLife() > 0) {
             System.out.println("Vous avez " + this.life + " points de vie");
             System.out.println("L'obstacle a " + obstacle1.getLife() + " points de vie");
-            System.out.println("Voulez-vous l'attaquer ? [0] Oui [1] Non");
+            System.out.println("Voulez-vous l'attaquer ? "+GREEN+"[0] "+RESET+"Oui "+GREEN+"[1] "+RESET+"Non");
             Scanner sc = new Scanner(System.in);
             int choixAttaque = sc.nextInt();
             while (choixAttaque != 0 && choixAttaque != 1) {
@@ -129,7 +129,7 @@ public class Player implements ActionsPlayer {
         while(monster1.getLife() > 0 && this.life > 0) {
             System.out.println("Vous avez " + this.life + " points de vie");
             System.out.println("Le monstre a " + monster1.getLife() + " points de vie");
-            System.out.println("Voulez-vous l'attaquer ? [0] Oui [1] Non");
+            System.out.println("Voulez-vous l'attaquer ? "+GREEN+"[0] "+RESET+"Oui "+GREEN+"[1] "+RESET+"Non");
             Scanner sc = new Scanner(System.in);
             int choixAttaque = sc.nextInt();
             while (choixAttaque != 0 && choixAttaque != 1) {
