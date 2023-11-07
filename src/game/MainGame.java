@@ -3,6 +3,7 @@ package game;
 import game.destructible.Monster;
 import game.weapons.WeaponStore;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 public class MainGame {
@@ -26,6 +27,7 @@ public class MainGame {
         }
 
         Player j1 = new Player(nom, choixRace);
+        System.out.println(j1);
 
         // Création du magasin d'armes :
         WeaponStore store = new WeaponStore();
@@ -45,11 +47,23 @@ public class MainGame {
             System.out.println("[1] down");
             System.out.println("[2] left");
             System.out.println("[3] right");
+            System.out.println("[4] Voir inventaire");
 
             int choixAction = sc.nextInt();
-            while (choixAction != 0 && choixAction != 1 && choixAction != 2 && choixAction != 3) {
+            while (choixAction != 0 && choixAction != 1 && choixAction != 2 && choixAction != 3 && choixAction != 4) {
                 System.out.println("Choisissez une action valide : ");
                 choixAction = sc.nextInt();
+            }
+
+            if(choixAction == 4) {
+                System.out.println("Voici votre inventaire :");
+                System.out.println("Porte-feuille : " + j1.getMoney());
+                System.out.println(j1.getArmes());
+                System.out.println("[X] Quitter inventaire");
+                String choixQuit = "";
+                while(!Objects.equals(choixQuit, "X")) {
+                    choixQuit = sc.nextLine();
+                }
             }
 
             j1.deplacement(choixAction, map, store);
