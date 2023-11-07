@@ -18,7 +18,6 @@ public class WeaponStore {
         weapons.add(new Bow(3));
 
     }
-
     public String toString() {
         return this.weapons.toString()+"\n\n";
     }
@@ -29,9 +28,16 @@ public class WeaponStore {
             System.out.println("Le magasin est vide");
             return;
         }
+        System.out.println("=====================================");
         System.out.println("Bienvenue dans le magasin d'armes");
         System.out.println("Voici les armes disponibles : ");
-        System.out.println(this.toString());
+        for (Weapon arme : this.weapons) {
+            System.out.println("Id arme : "+arme.getIdArme());
+            System.out.println("Nom de l'arme : "+arme.getName());
+            System.out.println("Damage : "+arme.getDamage());
+            System.out.println("Price : "+arme.getPrice());
+            System.out.println("Représentation : \n"+arme.ascii_art()+"\n\n");
+        }
 
         // Choix de l'arme du personnage :
         System.out.println("Choisissez votre arme : ");
@@ -40,11 +46,17 @@ public class WeaponStore {
         for (Weapon arme : this.weapons) {
             System.out.println("[" + arme.getIdArme() + "] " + arme.getName() + " (prix : " + arme.getPrice() + ")");
         }
+        if(!player.getArmes().isEmpty()) {
+            System.out.println("[0] Quitter le magasin");
+        }
 
         int choixArme = sc.nextInt();
-        while (choixArme != 1 && choixArme != 2 && choixArme != 3) {
+        while (choixArme != 1 && choixArme != 2 && choixArme != 3 && choixArme != 0) {
             System.out.println("Choisissez une arme valide : ");
             choixArme = sc.nextInt();
+        }
+        if(choixArme == 0) {
+            return;
         }
         player.buyWeapon(this.getWeaponInStore(choixArme), this);
     }

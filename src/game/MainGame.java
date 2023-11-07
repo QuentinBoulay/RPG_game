@@ -11,10 +11,14 @@ public class MainGame {
 
         // Création du personnage avec demande à l'utilisateur le nom de son personnage :
         Scanner sc = new Scanner(System.in);
+        System.out.println("=====================================");
+        System.out.println("Bienvenue dans le jeu de rôle !");
+        System.out.println("=====================================");
         System.out.println("Nom de votre personnage : ");
         String nom = sc.nextLine();
 
         // Création du personnage un peu plus précise. Quel race de personnage êtes-vous ?
+        System.out.println("=====================================");
         System.out.println("Quel type de personnage êtes-vous ?");
         System.out.println("[0] Humain");
         System.out.println("[1] Elfe");
@@ -27,7 +31,14 @@ public class MainGame {
         }
 
         Player j1 = new Player(nom, choixRace);
+        System.out.println("=====================================");
+        System.out.println("Voici votre personnage :");
         System.out.println(j1);
+        System.out.println("[X] Commencer l'aventure");
+        String choixBegin = "";
+        while(!Objects.equals(choixBegin, "X")) {
+            choixBegin = sc.nextLine();
+        }
 
         // Création du magasin d'armes :
         WeaponStore store = new WeaponStore();
@@ -38,10 +49,15 @@ public class MainGame {
         map.initMap();
 
         while (!map.isSortie()) {
+
+            if(j1.isDead()) {
+                return;
+            }
             // Affichage de la map :
             map.afficherMap();
 
             // Déplacement du joueur :
+            System.out.println("=====================================");
             System.out.println("Choisissez votre action : ");
             System.out.println("[0] up");
             System.out.println("[1] down");
@@ -56,6 +72,7 @@ public class MainGame {
             }
 
             if(choixAction == 4) {
+                System.out.println("=====================================");
                 System.out.println("Voici votre inventaire :");
                 System.out.println("Porte-feuille : " + j1.getMoney());
                 System.out.println(j1.getArmes());
@@ -70,5 +87,8 @@ public class MainGame {
 
 
         }
+        System.out.println("=====================================");
+        System.out.println("Vous avez gagné ! Vous avez trouvé la sortie !");
+
     }
 }

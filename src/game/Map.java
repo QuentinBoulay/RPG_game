@@ -3,6 +3,8 @@ package game;
 import java.util.ArrayList;
 import java.util.List;
 
+import static game.constants.ConsoleColors.*;
+
 public class Map {
     // nombre de lignes
     private int nbLignes;
@@ -35,31 +37,31 @@ public class Map {
         for(int i = 0; i < this.map.length; i++) {
             for(int j = 0; j < this.map[i].length; j++) {
                 if(Math.random() < 0.1) {
-                    this.map[i][j] = "[S]";
+                    this.map[i][j] = YELLOW+"[S]"+RESET;
                     this.positionStores.add(new int[]{i, j});
 
                 }
                 else if(Math.random() < 0.1) {
-                    this.map[i][j] = "[M]";
+                    this.map[i][j] = RED+"[M]"+RESET;
                     this.positionMonstres.add(new int[]{i, j});
                 }
                 else if(Math.random() < 0.1) {
-                    this.map[i][j] = "[O]";
+                    this.map[i][j] = BLUE+"[O]"+RESET;
                     this.positionObstacles.add(new int[]{i, j});
                 }
                 else {
-                    this.map[i][j] = "[ ]";
+                    this.map[i][j] = WHITE+"[ ]"+RESET;
                 }
             }
         }
 
         // placer le joueur sur la map :
-        this.map[this.map.length-1][0] = "[X]";
+        this.map[this.map.length-1][0] = PURPLE+"[X]"+RESET;
         this.positionJoueur[0] = this.map.length-1;
         this.positionJoueur[1] = 0;
 
         // placer la sortie sur la map :
-        this.map[0][this.map.length-1] = "[?]";
+        this.map[0][this.map.length-1] = WHITE+"[?]"+RESET;
         this.positionSortie[0] = 0;
         this.positionSortie[1] = this.map.length-1;
     }
