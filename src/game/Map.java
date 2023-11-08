@@ -21,10 +21,7 @@ public class Map {
     // position de la sortie sur la map
     private int[] positionSortie;
 
-    // position de mes monstres sur la map, ça sera un tableau de tableaux. Vu qu'il faudra stocker la position de plusieurs monstres
-    private List<int[]> positionMonstres;
-    private List<int[]> positionObstacles;
-    private List<int[]> positionStores;
+
 
     public Map(int nbLignes, int nbColonnes) {
         this.nbLignes = nbLignes;
@@ -32,30 +29,21 @@ public class Map {
         this.map = new Object[nbLignes][nbColonnes];
         this.positionJoueur = new int[2];
         this.positionSortie = new int[2];
-        this.positionMonstres = new ArrayList<>();
-        this.positionObstacles = new ArrayList<>();
-        this.positionStores = new ArrayList<>();
     }
 
     public void initMap() {
         for(int i = 0; i < this.map.length; i++) {
             for(int j = 0; j < this.map[i].length; j++) {
-                if(Math.random() < 0.1) {
-                    // remplacer par un objet Weapon Store avec comme propriété "représentation" et créer une méthode toString()
-                    // qui sera appelée ici pour l'afficher sur la map
+                if(Math.random() < 0.01) {
                     WeaponStore weaponStore = new WeaponStore();
                     this.map[i][j] = weaponStore;
 
                 }
                 else if(Math.random() < 0.1) {
-                    // remplacer par un objet Mosntre avec comme propriété "représentation" et créer une méthode toString()
-                    // qui sera appelée ici pour l'afficher sur la map
                     Monster monster = new Monster(200);
                     this.map[i][j] = monster;
                 }
                 else if(Math.random() < 0.1) {
-                    // remplacer par un objet Obstacles avec comme propriété "représentation" et créer une méthode toString()
-                    // qui sera appelée ici pour l'afficher sur la map
                     Obstacle obstacle = new Obstacle(200);
                     this.map[i][j] = obstacle;
                 }
@@ -101,18 +89,6 @@ public class Map {
 
     public int[] getPositionJoueur() {
         return this.positionJoueur;
-    }
-
-    public List<int[]> getPositionMonstres() {
-        return this.positionMonstres;
-    }
-
-    public List<int[]> getPositionObstacles() {
-        return this.positionObstacles;
-    }
-
-    public List<int[]> getPositionStores() {
-        return this.positionStores;
     }
 
     public int[] getPositionSortie() {

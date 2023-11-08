@@ -16,7 +16,7 @@ public class Player implements ActionsPlayer {
     private String nom;
     private int race;
     private int life;
-    private double money;
+    private double money = 300;
     private ArrayList<Weapon> armes;
     private boolean isDead = false;
 
@@ -25,7 +25,6 @@ public class Player implements ActionsPlayer {
         this.nom = nom;
         this.race = race;
         this.life = 300;
-        this.money = 300;
         this.armes = new ArrayList<Weapon>();
     }
 
@@ -38,11 +37,27 @@ public class Player implements ActionsPlayer {
                 System.out.println(this.nom + ", tu n'as pas assez d'argent pour cette arme (prix arme : " + arme.getPrice() + ", argent possédé : " + this.money + ")");
             } else {
                 this.armes.add(arme);
-                store.getStore().remove(1);
+                store.getStore().remove(arme);
                 this.money = this.money - arme.getPrice();
             }
         }
 
+    }
+
+    public void changeWeapon(int choixArme) {
+        if(this.armes.isEmpty()) {
+            System.out.println("Vous n'avez pas d'arme");
+            return;
+        }
+        if(choixArme > this.armes.size()) {
+            System.out.println("Vous n'avez pas d'arme à cet emplacement");
+            return;
+        }
+        Weapon arme = this.armes.get(choixArme);
+        // placer arme au début de la liste sans supprimer l'arme qui était à la première position :
+        this.armes.add(0, arme);
+        this.armes.remove(choixArme+1);
+        System.out.println("Vous avez changé d'arme. Vous avez maintenant "+arme.getName());
     }
 
     @Override
@@ -68,8 +83,6 @@ public class Player implements ActionsPlayer {
 
         // Vérifier le contenu de la nouvelle position
         Object caseContent = mapGame[newX][newY];
-
-        System.out.println(caseContent);
 
         // Agir en fonction du contenu de la case
         if (caseContent instanceof Monster) {
@@ -139,8 +152,8 @@ public class Player implements ActionsPlayer {
             if (choixAttaque == 0) {
                 arme.attack(monster);
                 System.out.println("Le monstre vous attaque !");
-                monster.getDamage();
                 monster.attack(this);
+                monster.getDamage();
             }
             else {
                 System.out.println("Vous avez fui");
@@ -158,6 +171,7 @@ public class Player implements ActionsPlayer {
             int randomMoney = (int) (Math.random() * (100 - 50)) + 50;
             System.out.println("=====================================");
             System.out.println("Vous avez tué le monstre. Vous venez de gagner "+randomMoney+" pièces d'or");
+            this.money = this.money + randomMoney;
             return true;
         }
         return monster.getLife() <= 0;
@@ -197,7 +211,7 @@ public class Player implements ActionsPlayer {
         return this.money;
     }
 
-    public ArrayList getArmes() {
+    public ArrayList<Weapon> getArmes() {
         return this.armes;
     }
 

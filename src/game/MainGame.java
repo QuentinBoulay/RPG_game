@@ -1,6 +1,7 @@
 package game;
 
 import game.destructible.Monster;
+import game.weapons.Weapon;
 import game.weapons.WeaponStore;
 import static game.constants.ConsoleColors.*;
 import java.util.Objects;
@@ -25,11 +26,11 @@ public class MainGame {
         System.out.println(GREEN+"[2] "+RESET+"Nain");
 
         int choixRace = sc.nextInt();
+
         while (choixRace != 0 && choixRace != 1 && choixRace != 2) {
             System.out.println("Choisissez un type de personnage valide : ");
             choixRace = sc.nextInt();
         }
-
         Player j1 = new Player(nom, choixRace);
         System.out.println("=====================================");
         System.out.println("Voici votre personnage :");
@@ -64,9 +65,8 @@ public class MainGame {
             System.out.println(GREEN+"[2] "+RESET+"left");
             System.out.println(GREEN+"[3] "+RESET+"right");
             System.out.println(GREEN+"[4] "+RESET+"Voir inventaire");
-
             int choixAction = sc.nextInt();
-            while (choixAction != 0 && choixAction != 1 && choixAction != 2 && choixAction != 3 && choixAction != 4) {
+            while (choixAction != 0 && choixAction != 1 && choixAction != 2 && choixAction != 3 && choixAction != 4 && choixAction != (int) choixAction) {
                 System.out.println("Choisissez une action valide : ");
                 choixAction = sc.nextInt();
             }
@@ -76,10 +76,23 @@ public class MainGame {
                 System.out.println("Voici votre inventaire :");
                 System.out.println("Porte-feuille : " + j1.getMoney());
                 System.out.println(j1.getArmes());
+                System.out.println(GREEN+"[C] "+RESET+"Changez d'arme");
                 System.out.println(GREEN+"[X] "+RESET+"Quitter inventaire");
                 String choixQuit = "";
-                while(!Objects.equals(choixQuit, "X")) {
+                while(!Objects.equals(choixQuit, "X") && !Objects.equals(choixQuit, "C")) {
                     choixQuit = sc.nextLine();
+                }
+                if(Objects.equals(choixQuit, "C")) {
+                    System.out.println("Choisissez votre arme : ");
+                    for (Weapon arme : j1.getArmes()) {
+                        System.out.println(GREEN+"[" + arme.getIdArme() + "] "+RESET+arme.getName() + " (prix : " + arme.getPrice() + ")");
+                    }
+                    int choixArme = sc.nextInt();
+                    while (choixArme != 1 && choixArme != 2 && choixArme != 3) {
+                        System.out.println("Choisissez une arme valide : ");
+                        choixArme = sc.nextInt();
+                    }
+                    j1.changeWeapon(choixArme);
                 }
             }
 
