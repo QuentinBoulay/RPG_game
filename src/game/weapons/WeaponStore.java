@@ -9,20 +9,17 @@ import game.weapons.Weapon;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import static game.constants.ConsoleColors.GREEN;
-import static game.constants.ConsoleColors.RESET;
+import static game.constants.ConsoleColors.*;
 
 public class WeaponStore {
     private ArrayList<Weapon> weapons = new ArrayList<>();
+    private String representation = YELLOW+"[S]"+RESET;
 
     public WeaponStore() {
         weapons.add(new Axe(1));
         weapons.add(new Hammer(2));
         weapons.add(new Bow(3));
 
-    }
-    public String toString() {
-        return this.weapons.toString()+"\n\n";
     }
 
     public void displayStore(Player player) {
@@ -76,4 +73,9 @@ public class WeaponStore {
         }
         return null;
     }
+
+    public String toString() {
+        return this.representation;
+    }
+
 }

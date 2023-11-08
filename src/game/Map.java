@@ -1,5 +1,9 @@
 package game;
 
+import game.destructible.Monster;
+import game.destructible.Obstacle;
+import game.weapons.WeaponStore;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +15,7 @@ public class Map {
     // nombre de colonnes
     private int nbColonnes;
     // matrice de la map
-    private String[][] map;
+    private Object[][] map;
     // position du joueur sur la map
     private int[] positionJoueur;
     // position de la sortie sur la map
@@ -25,7 +29,7 @@ public class Map {
     public Map(int nbLignes, int nbColonnes) {
         this.nbLignes = nbLignes;
         this.nbColonnes = nbColonnes;
-        this.map = new String[nbLignes][nbColonnes];
+        this.map = new Object[nbLignes][nbColonnes];
         this.positionJoueur = new int[2];
         this.positionSortie = new int[2];
         this.positionMonstres = new ArrayList<>();
@@ -37,17 +41,23 @@ public class Map {
         for(int i = 0; i < this.map.length; i++) {
             for(int j = 0; j < this.map[i].length; j++) {
                 if(Math.random() < 0.1) {
-                    this.map[i][j] = YELLOW+"[S]"+RESET;
-                    this.positionStores.add(new int[]{i, j});
+                    // remplacer par un objet Weapon Store avec comme propriété "représentation" et créer une méthode toString()
+                    // qui sera appelée ici pour l'afficher sur la map
+                    WeaponStore weaponStore = new WeaponStore();
+                    this.map[i][j] = weaponStore;
 
                 }
                 else if(Math.random() < 0.1) {
-                    this.map[i][j] = RED+"[M]"+RESET;
-                    this.positionMonstres.add(new int[]{i, j});
+                    // remplacer par un objet Mosntre avec comme propriété "représentation" et créer une méthode toString()
+                    // qui sera appelée ici pour l'afficher sur la map
+                    Monster monster = new Monster(200);
+                    this.map[i][j] = monster;
                 }
                 else if(Math.random() < 0.1) {
-                    this.map[i][j] = BLUE+"[O]"+RESET;
-                    this.positionObstacles.add(new int[]{i, j});
+                    // remplacer par un objet Obstacles avec comme propriété "représentation" et créer une méthode toString()
+                    // qui sera appelée ici pour l'afficher sur la map
+                    Obstacle obstacle = new Obstacle(200);
+                    this.map[i][j] = obstacle;
                 }
                 else {
                     this.map[i][j] = WHITE+"[ ]"+RESET;
@@ -85,7 +95,7 @@ public class Map {
     }
 
 
-    public String[][] getMap() {
+    public Object[][] getMap() {
         return this.map;
     }
 
