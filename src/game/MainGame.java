@@ -66,7 +66,7 @@ public class MainGame {
             System.out.println(GREEN+"[3] "+RESET+"right");
             System.out.println(GREEN+"[4] "+RESET+"Voir inventaire");
             int choixAction = sc.nextInt();
-            while (choixAction != 0 && choixAction != 1 && choixAction != 2 && choixAction != 3 && choixAction != 4 && choixAction != (int) choixAction) {
+            while (choixAction != 0 && choixAction != 1 && choixAction != 2 && choixAction != 3 && choixAction != 4) {
                 System.out.println("Choisissez une action valide : ");
                 choixAction = sc.nextInt();
             }
