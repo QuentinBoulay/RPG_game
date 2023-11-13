@@ -50,7 +50,14 @@ public class Map {
                 else {
                     this.map[i][j] = WHITE+"[ ]"+RESET;
                 }
+
+                // afficher au moins un store :
+                if(i == 0 && j == 0) {
+                    WeaponStore weaponStore = new WeaponStore();
+                    this.map[i][j] = weaponStore;
+                }
             }
+
         }
 
         // placer le joueur sur la map :

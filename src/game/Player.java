@@ -16,7 +16,7 @@ public class Player implements ActionsPlayer {
     private String nom;
     private int race;
     private int life;
-    private double money = 300;
+    private double money = 10000;
     private ArrayList<Weapon> armes;
     private boolean isDead = false;
 
@@ -49,7 +49,7 @@ public class Player implements ActionsPlayer {
             System.out.println("Vous n'avez pas d'arme");
             return;
         }
-        if(choixArme > this.armes.size()) {
+        if(choixArme >= this.armes.size()) {
             System.out.println("Vous n'avez pas d'arme à cet emplacement");
             return;
         }
