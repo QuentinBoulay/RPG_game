@@ -7,6 +7,7 @@ import game.weapons.Hammer;
 import game.weapons.Weapon;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import static game.constants.ConsoleColors.*;
@@ -24,7 +25,7 @@ public class WeaponStore {
 
     public void displayStore(Player player) {
         // Affichage du magasin :
-        if(this.weapons.isEmpty()) {
+        if (this.weapons.isEmpty()) {
             System.out.println("Le magasin est vide");
             return;
         }
@@ -46,16 +47,28 @@ public class WeaponStore {
         for (Weapon arme : this.weapons) {
             System.out.println(GREEN+"[" + arme.getIdArme() + "] "+RESET+arme.getName() + " (prix : " + arme.getPrice() + ")");
         }
-        if(!player.getArmes().isEmpty()) {
+        if (!player.getArmes().isEmpty()) {
             System.out.println(GREEN+"[0] "+RESET+"Quitter le magasin");
         }
 
-        int choixArme = sc.nextInt();
-        while (choixArme != 1 && choixArme != 2 && choixArme != 3 && choixArme != 0) {
-            System.out.println("Choisissez une arme valide : ");
-            choixArme = sc.nextInt();
+        int choixArme = -1;
+        boolean entreeValide = false;
+
+        while (!entreeValide) {
+            try {
+                choixArme = sc.nextInt();
+                if (choixArme == 0 || this.getWeaponInStore(choixArme) != null) {
+                    entreeValide = true;
+                } else {
+                    System.out.println("Choisissez une arme valide : ");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Erreur : Veuillez entrer un numéro valide : ");
+                sc.next(); // important pour éviter une boucle infinie
+            }
         }
-        if(choixArme == 0) {
+
+        if (choixArme == 0) {
             return;
         }
         player.buyWeapon(this.getWeaponInStore(choixArme), this);

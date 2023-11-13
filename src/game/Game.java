@@ -3,6 +3,7 @@ package game;
 import game.weapons.Weapon;
 import game.weapons.WeaponStore;
 
+import java.util.InputMismatchException;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -34,24 +35,36 @@ public class Game {
         System.out.println("Nom de votre personnage : ");
         String nom = sc.nextLine();
 
-        // Création du personnage un peu plus précise. Quel race de personnage êtes-vous ?
         System.out.println("=====================================");
         System.out.println("Quel type de personnage êtes-vous ?");
         System.out.println(GREEN+"[0] "+RESET+"Humain");
         System.out.println(GREEN+"[1] "+RESET+"Elfe");
         System.out.println(GREEN+"[2] "+RESET+"Nain");
 
-        int choixRace = sc.nextInt();
+        int choixRace = -1;
+        boolean entreeValide = false;
 
-        while (choixRace != 0 && choixRace != 1 && choixRace != 2) {
-            System.out.println("Choisissez un type de personnage valide : ");
-            choixRace = sc.nextInt();
+        while (!entreeValide) {
+            try {
+                choixRace = sc.nextInt();
+                if (choixRace >= 0 && choixRace <= 2) {
+                    entreeValide = true;
+                } else {
+                    System.out.println("Choisissez un numéro valide (0, 1 ou 2) : ");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Erreur : Veuillez entrer un numéro valide (0, 1 ou 2) : ");
+                sc.next();
+            }
         }
+
         this.j1 = new Player(nom, choixRace);
         System.out.println("=====================================");
         System.out.println("Voici votre personnage :");
         System.out.println(this.j1);
         System.out.println(GREEN+"[X] "+RESET+"Commencer l'aventure");
+
+        sc.nextLine();
         String choixBegin = "";
         while(!Objects.equals(choixBegin, "X")) {
             choixBegin = sc.nextLine();
@@ -82,10 +95,22 @@ public class Game {
             System.out.println(GREEN + "[2] " + RESET + "left");
             System.out.println(GREEN + "[3] " + RESET + "right");
             System.out.println(GREEN + "[4] " + RESET + "Voir inventaire");
-            int choixAction = sc.nextInt();
-            while (choixAction != 0 && choixAction != 1 && choixAction != 2 && choixAction != 3 && choixAction != 4) {
-                System.out.println("Choisissez une action valide : ");
-                choixAction = sc.nextInt();
+
+            int choixAction = -1;
+            boolean entreeValide = false;
+
+            while (!entreeValide) {
+                try {
+                    choixAction = sc.nextInt();
+                    if (choixAction >= 0 && choixAction <= 4) {
+                        entreeValide = true;
+                    } else {
+                        System.out.println("Choisissez une action valide (0, 1, 2, 3, 4) : ");
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Erreur : Veuillez entrer un numéro valide (0, 1, 2, 3, 4) : ");
+                    sc.next(); // important pour éviter une boucle infinie
+                }
             }
 
             if (choixAction == 4) {

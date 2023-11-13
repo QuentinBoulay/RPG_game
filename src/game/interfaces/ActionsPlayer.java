@@ -1,6 +1,7 @@
 package game.interfaces;
 
 import game.Map;
+import game.destructible.Destructible;
 import game.destructible.Monster;
 import game.destructible.Obstacle;
 import game.weapons.Weapon;
@@ -13,7 +14,5 @@ public interface ActionsPlayer {
     // se déplacer
     void deplacement(int choix, Map map, WeaponStore store);
 
-    boolean meetObstacle(Weapon arme, WeaponStore store, Obstacle obstacle);
-
-    boolean meetMonster(Weapon arme, WeaponStore store, Monster monster);
+    boolean meetDestructible(Weapon arme, WeaponStore store, Destructible de);
 }

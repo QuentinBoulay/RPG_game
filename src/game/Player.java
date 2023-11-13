@@ -1,5 +1,6 @@
 package game;
 
+import game.destructible.Destructible;
 import game.destructible.Monster;
 import game.destructible.Obstacle;
 import game.interfaces.ActionsPlayer;
@@ -7,6 +8,7 @@ import game.weapons.Weapon;
 import game.weapons.WeaponStore;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import static game.constants.ConsoleColors.*;
@@ -87,12 +89,12 @@ public class Player implements ActionsPlayer {
         // Agir en fonction du contenu de la case
         if (caseContent instanceof Monster) {
             // Interaction avec un monstre
-            if(meetMonster(this.armes.get(0), weaponStore, (Monster) caseContent)) {
+            if(meetDestructible(this.armes.get(0), weaponStore, (Monster) caseContent)) {
              mapGame[newX][newY] = WHITE+"[ ]" ;
             }
         } else if (caseContent instanceof Obstacle) {
             // Interaction avec un obstacle
-            if(meetObstacle(this.armes.get(0), weaponStore, (Obstacle) caseContent)) {
+            if(meetDestructible(this.armes.get(0), weaponStore, (Obstacle) caseContent)) {
                 mapGame[newX][newY] = WHITE+"[ ]"+RESET ;
             }
         } else if (caseContent instanceof WeaponStore) {
@@ -108,73 +110,62 @@ public class Player implements ActionsPlayer {
     }
     // Rencontre avec un obstacle
     @Override
-    public boolean meetObstacle(Weapon arme, WeaponStore store, Obstacle obstacle) {
+    public boolean meetDestructible(Weapon arme, WeaponStore store, Destructible destructible) {
         System.out.println("=====================================");
-        System.out.println("Vous êtes tombé sur un obstacle");
-        while(obstacle.getLife() > 0) {
-            System.out.println("Vous avez " + this.life + " points de vie");
-            System.out.println("L'obstacle a " + obstacle.getLife() + " points de vie");
-            System.out.println("Voulez-vous l'attaquer ? "+GREEN+"[0] "+RESET+"Oui "+GREEN+"[1] "+RESET+"Non");
-            Scanner sc = new Scanner(System.in);
-            int choixAttaque = sc.nextInt();
-            while (choixAttaque != 0 && choixAttaque != 1) {
-                System.out.println("Choisissez une action valide : ");
-                choixAttaque = sc.nextInt();
-            }
-            if (choixAttaque == 0) {
-                arme.attack(obstacle);
-            }
-            else {
+        String destructibleType = destructible instanceof Monster ? "monstre" : "obstacle";
+        System.out.println("Vous êtes tombé sur un " + destructibleType);
 
+        Scanner sc = new Scanner(System.in);
+        while(destructible.getLife() > 0 && (destructibleType.equals("obstacle") || this.life > 0)) {
+            System.out.println("Vous avez " + this.life + " points de vie");
+            System.out.println("Le " + destructibleType + " a " + destructible.getLife() + " points de vie");
+            System.out.println("Voulez-vous l'attaquer ? "+GREEN+"[0] "+RESET+"Oui "+GREEN+"[1] "+RESET+"Non");
+
+            int choixAttaque = -1;
+            boolean entreeValide = false;
+
+            while (!entreeValide) {
+                try {
+                    choixAttaque = sc.nextInt();
+                    if (choixAttaque == 0 || choixAttaque == 1) {
+                        entreeValide = true;
+                    } else {
+                        System.out.println("Choisissez une action valide : Oui (0) ou Non (1)");
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Erreur : Veuillez entrer un numéro valide : Oui (0) ou Non (1)");
+                    sc.next(); // important pour éviter une boucle infinie
+                }
+            }
+
+            if (choixAttaque == 0) {
+                arme.attack(destructible);
+                if (destructible instanceof Monster) {
+                    System.out.println("Le monstre vous attaque !");
+                    ((Monster) destructible).attack(this);
+                    System.out.println(((Monster) destructible).getDamage());
+                }
+            } else {
                 System.out.println("Vous avez fui");
                 return false;
             }
-        }
-        System.out.println("Vous avez détruit l'obstacle. Vous pouvez avancer");
-        return obstacle.getLife() <= 0;
 
-    }
-
-    @Override
-    public boolean meetMonster(Weapon arme, WeaponStore store, Monster monster) {
-        System.out.println("=====================================");
-        System.out.println("Vous êtes tombé sur un monstre");
-        while(monster.getLife() > 0 && this.life > 0) {
-            System.out.println("Vous avez " + this.life + " points de vie");
-            System.out.println("Le monstre a " + monster.getLife() + " points de vie");
-            System.out.println("Voulez-vous l'attaquer ? "+GREEN+"[0] "+RESET+"Oui "+GREEN+"[1] "+RESET+"Non");
-            Scanner sc = new Scanner(System.in);
-            int choixAttaque = sc.nextInt();
-            while (choixAttaque != 0 && choixAttaque != 1) {
-                System.out.println("Choisissez une action valide : ");
-                choixAttaque = sc.nextInt();
-            }
-            if (choixAttaque == 0) {
-                arme.attack(monster);
-                System.out.println("Le monstre vous attaque !");
-                monster.attack(this);
-                monster.getDamage();
-            }
-            else {
-                System.out.println("Vous avez fui");
+            // Gérer la mort du joueur ou de la créature
+            if (this.life <= 0) {
+                System.out.println("=====================================");
+                System.out.println("Vous êtes mort");
+                System.out.println("Game Over. Vous avez perdu. Vous pouvez recommencer.");
+                this.isDead = true;
                 return false;
+            } else if (destructible.getLife() <= 0 && destructible instanceof Monster) {
+                int randomMoney = (int) (Math.random() * (100 - 50)) + 50;
+                System.out.println("=====================================");
+                System.out.println("Vous avez tué le monstre. Vous venez de gagner "+randomMoney+" pièces d'or");
+                this.money = this.money + randomMoney;
             }
         }
-        if (this.life <= 0) {
-            System.out.println("=====================================");
-            System.out.println("Vous êtes mort");
-            System.out.println("Game Over. Vous avez perdu. Vous pouvez recommencer.");
-            this.isDead = true;
-            return false;
-        }
-        else if (monster.getLife() <= 0) {
-            int randomMoney = (int) (Math.random() * (100 - 50)) + 50;
-            System.out.println("=====================================");
-            System.out.println("Vous avez tué le monstre. Vous venez de gagner "+randomMoney+" pièces d'or");
-            this.money = this.money + randomMoney;
-            return true;
-        }
-        return monster.getLife() <= 0;
+        System.out.println("Vous avez détruit le " + destructibleType + ". Vous pouvez avancer");
+        return destructible.getLife() <= 0;
     }
 
     public String toString() {
